@@ -1,27 +1,35 @@
 const fs = require("fs");
 const csv = require('csv-parser');
+const minimist = require('minimist');
 
 const output = [];
 
-function main(filename = 'zips.csv') {
+function main() {
+  const argv = minimist(process.argv.slice(2));
+  const { filename, outputFile } = argv;
+
   fs.createReadStream(filename)
     .pipe(csv())
     .on('data', function(row) {
-      const zip = row.zipcode;
-      const rateArea = row.rate_area;
-      
-      const total = zip * rateArea;
-      
-      output.push({
-        zip,
-        total,
-      });
+      processRow(row);
   })
   .on('end', function() {
-    writeToCSVFile(output);
+    writeToCSVFile(output, outputFile);
   })
   .on('error', function(err) {
     console.error("err: ", err);
+  });
+}
+
+function processRow(row) {
+  const zip = row.zipcode;
+  const rateArea = row.rate_area;
+  
+  const total = zip * rateArea;
+  
+  output.push({
+    zip,
+    total,
   });
 }
 
