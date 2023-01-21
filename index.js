@@ -1,4 +1,5 @@
-const fs = require("fs");
+const fs = require('fs');
+
 const csv = require('csv-parser');
 const minimist = require('minimist');
 
@@ -7,6 +8,9 @@ const output = [];
 function main() {
   const argv = minimist(process.argv.slice(2));
   const { filename, outputFile } = argv;
+  if (filename == null) {
+    throw new Error("`filename` is required.")
+  }
 
   fs.createReadStream(filename)
     .pipe(csv())
@@ -38,7 +42,7 @@ function writeToCSVFile(data, filename = 'output.csv') {
     if (err) {
       console.error('Error writing to csv file ', err);
     } else {
-      console.log(`saved as ${filename}`);
+      console.log(`File processed and saved as '${filename}'`);
     }
   });
 }

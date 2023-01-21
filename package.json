@@ -9,7 +9,7 @@
   "author": "nick bouldien",
   "license": "MIT",
   "dependencies": {
-    "csv-parser": "^2.3.3",
-    "minimist": "^1.2.5"
+    "csv-parser": "3.0.0",
+    "minimist": "1.2.7"
   }
 }
